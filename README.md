@@ -12,3 +12,4 @@ Using method:
 main.py: use the pandas and google api to get the excel including information of "Address", "Longitude", "Latitude", "Name", "Rating" information of the place, the result can be seen in bars_info.xlsx.
 app.py: run this code we can combine with the index.html under template folder utilizing the flask frame to get the website of the bars and also the rating.
 3D model in the master branch: the 3D model from the google map can be opened in the times1.blend file. We can utilizing the 3D model to get the view of the place we want to go.
+Attention: the api key needed when run the app.py and also the index.html
