@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Club and Bar Finder</title>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZtVdOu3t6_UMKgNImk10T_lubWIW7nsU&libraries=places&callback=initMap" async defer></script>
+  <script>
+    var map;
+    var service;
+    var infowindow;
+    var userMarker;
+
+    function initMap() {
+      infowindow = new google.maps.InfoWindow();
+      map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: 0, lng: 0},
+        zoom: 15
+      });
+
+      setInterval(updateLocation, 60000);  // Update every 60 seconds
+      updateLocation();  // Initial update
+    }
+
+    function updateLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          var pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          };
+
+          map.setCenter(pos);
+
+          // Update or set the user marker
+          if (userMarker) {
+            userMarker.setPosition(pos);
+          } else {
+            userMarker = new google.maps.Marker({
+              position: pos,
+              map: map,
+              icon: 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png'
+            });
+          }
+
+          // Fetch nearby clubs and bars
+          var request = {
+            location: pos,
+            radius: '1000',
+            type: ['night_club', 'bar']
+          };
+
+          service = new google.maps.places.PlacesService(map);
+          service.nearbySearch(request, callback);
+        });
+      } else {
+        alert("Geolocation is not supported by this browser.");
+      }
+    }
+
+    function callback(results, status) {
+      if (status === google.maps.places.PlacesServiceStatus.OK) {
+        for (var i = 0; i < results.length; i++) {
+          createMarker(results[i]);
+        }
+      }
+    }
+
+    function createMarker(place) {
+      let color;
+      if (place.rating >= 4) {
+        color = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png';
+      } else if (place.rating < 4 && place.rating >= 2) {
+        color = 'http://maps.google.com/mapfiles/ms/icons/orange-dot.png';
+      } else {
+        color = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';
+      }
+
+      var marker = new google.maps.Marker({
+        map: map,
+        position: place.geometry.location,
+        icon: color
+      });
+
+      google.maps.event.addListener(marker, 'click', function() {
+        infowindow.setContent(place.name + " - Rating: " + place.rating);
+        infowindow.open(map, this);
+      });
+    }
+  </script>
+</head>
+<body onload="initMap()">
+  <h1>Club and Bar Finder</h1>
+  <div id="map" style="height: 500px; width: 100%;"></div>
+</body>
+</html>
