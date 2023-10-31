@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Bars Map</title>
+    <style>
+        #map {
+            height: 400px;
+        }
+    </style>
+    <!-- 引入 Google Maps JavaScript API，替换YOUR_API_KEY为你的API密钥 -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZtVdOu3t6_UMKgNImk10T_lubWIW7nsU "></script>
+
+    <script>
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 12,  // 设置初始缩放级别
+                center: {lat: 13.7563, lng: 100.5018}  // 设置初始地图中心坐标为曼谷
+            });
+
+            // 从 Flask 传递的坐标数据
+            var barCoordinates = [
+                {% for index, row in df.iterrows() %}
+                { name: '{{row['Name']}}', lat: {{ row['Latitude'] }}, lng: {{ row['Longitude'] }}, rating: {{ row['Rating'] }} },
+                {% endfor %}
+            ];
+
+            barCoordinates.forEach(function(location) {
+                var marker = new google.maps.Marker({
+                    position: { lat: location.lat, lng: location.lng },
+                    map: map,
+                    title: location.name
+                });
+
+                var infowindow = new google.maps.InfoWindow({
+                    content: location.name + '<br>Rating: ' + location.rating
+                });
+
+                marker.addListener('click', function() {
+                    infowindow.open(map, marker);
+                });
+            });
+        }
+    </script>
+</head>
+<body>
+    <div id="map"></div>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Rating</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for index, row in df.iterrows() %}
+                <tr>
+                    <td>{{ row['Name'] }}</td>
+                    <td>{{ row['Address'] }}</td>
+                    <td>{{ row['Rating'] }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <!-- 在页面加载时调用initMap函数 -->
+    <script>
+        google.maps.event.addDomListener(window, 'load', initMap);
+    </script>
+</body>
+</html>
