@@ -13,4 +13,5 @@ main.py: use the pandas and google api to get the excel including information of
 app.py: run this code we can combine with the index.html under template folder utilizing the flask frame to get the website of the bars and also the rating.
 3D model in the master branch: the 3D model from the google map can be opened in the times1.blend file. We can utilizing the 3D model to get the view of the place we want to go.
 Attention: the api key needed when run the app.py and also the index.html
+
 The newest version is bar1.html. It can achieve the function as: With more improvement, I realize the function that during my trip, the app can update the nearby bar or club when I walk by, and also update with the different color symbolizing the rating stars of  customers. The green represents highest recommendation, the red represents the lowest recommendation. The recommendation will update in few minutes and give notification.
