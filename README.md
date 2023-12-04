@@ -30,3 +30,5 @@ Latest Version - bar1.html:
 The newest version introduces a feature where, during your trip, the app can dynamically update nearby bars or clubs as you walk by. The updated version uses different colors to represent customer ratings, with green indicating the highest recommendation and red indicating the lowest. Recommendations update every few minutes and trigger notifications to enhance your exploration experience.
 How to use:
 All you need to do is to download the bar1.html, then a whole new journey is waiting for you!
+The detailed result and screenshot link is attached below:
+https://github.com/LUYINGRUAN/project2/blob/main/project%202.pdf
